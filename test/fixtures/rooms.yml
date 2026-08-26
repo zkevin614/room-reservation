@@ -1,0 +1,4 @@
+conference:
+  site: main
+  name: Conference Room
+  active: true
