@@ -1,5 +1,6 @@
 class Reservation < ApplicationRecord
-  BLOCKING_STATUSES = %w[pending approved].freeze
+  ACTIVE_STATUSES = %w[pending approved].freeze
+  BLOCKING_STATUSES = %w[approved].freeze
 
   belongs_to :room
   belongs_to :user
@@ -17,7 +18,7 @@ class Reservation < ApplicationRecord
   validate :no_overlapping_reservation
 
   scope :upcoming, -> {
-    where(status: BLOCKING_STATUSES).where("starts_at >= ?", Time.current).order(:starts_at)
+    where(status: ACTIVE_STATUSES).where("starts_at >= ?", Time.current).order(:starts_at)
   }
 
   def approve!(by:)
@@ -41,8 +42,8 @@ class Reservation < ApplicationRecord
   end
 
   def cancel!
-    unless pending? || approved?
-      errors.add(:base, "Only pending or approved reservations can be cancelled")
+    unless cancellable?
+      errors.add(:base, "Only upcoming pending or approved reservations can be cancelled")
       return false
     end
 
@@ -51,7 +52,7 @@ class Reservation < ApplicationRecord
   end
 
   def cancellable?
-    pending? || approved?
+    (pending? || approved?) && ends_at.present? && ends_at > Time.current
   end
 
   private

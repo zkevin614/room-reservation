@@ -3,7 +3,7 @@
 <header>
   <%= render "shared/nav" %>
   <h1>My reservations</h1>
-  <p>Your upcoming reservation requests and their status.</p>
+  <p>Only your own reservation requests (pending, approved, denied, or cancelled).</p>
 </header>
 
 <% if flash[:notice] %>
@@ -49,5 +49,5 @@
     </table>
   </figure>
 <% else %>
-  <p>No upcoming reservations yet. <%= link_to "Browse rooms", root_path %> to request one.</p>
+  <p>No reservations yet. <%= link_to "Browse rooms", root_path %> to request one.</p>
 <% end %>

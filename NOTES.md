@@ -26,3 +26,4 @@ Tools used: **Cursor** (agentic coding assistant). Encouraged by the brief; judg
 | Staff (and admin) should see who booked which room/when on Rooms page | Shared per-room upcoming pending+approved schedule; status badges; highlight staff’s own rows | **Accepted**. |
 | Polish My reservations UI with status chips | Card layout per booking; pending/approved/denied/cancelled chips | **Accepted**, then switched to a plain table with status chips after cards looked broken under Pico. |
 | Staff can cancel their pending/approved reservations | `cancel!` on model; member route; Cancel on My reservations; upcoming list is active bookings only | **Accepted**. |
+| Fix: pending should not block other pending requests; only approved blocks; admin queue by created_at | `BLOCKING_STATUSES` = approved only; `ACTIVE_STATUSES` for upcoming; admin `order(:created_at)`; tests updated | **Accepted** — corrected earlier FCFS-pending mistake. |

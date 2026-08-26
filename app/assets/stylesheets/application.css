@@ -63,6 +63,40 @@
   font-size: 0.85em;
 }
 
+.action-buttons {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+}
+
+.action-buttons form {
+  display: inline;
+  margin: 0;
+}
+
+.action-btn {
+  width: auto;
+  margin: 0;
+  padding: 0.25rem 0.65rem;
+  font-size: 0.8em;
+  line-height: 1.2;
+}
+
+.deny-btn {
+  background-color: #c82333;
+  border-color: #c82333;
+  color: #fff;
+}
+
+.deny-btn:hover,
+.deny-btn:focus {
+  background-color: #a71d2a;
+  border-color: #a71d2a;
+  color: #fff;
+}
+
 .status {
   display: inline-block;
   padding: 0.2rem 0.65rem;

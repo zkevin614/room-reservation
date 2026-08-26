@@ -8,13 +8,16 @@ class ReservationTest < ActiveSupport::TestCase
     @day = Time.zone.parse("2026-09-01 00:00:00")
   end
 
-  test "overlapping pending reservation is invalid" do
+  test "overlapping pending reservations are allowed" do
     create_reservation!(starts_at: @day + 9.hours, ends_at: @day + 10.hours, status: :pending)
 
-    conflict = build_reservation(starts_at: @day + 9.hours + 30.minutes, ends_at: @day + 10.hours + 30.minutes)
+    competitor = build_reservation(
+      starts_at: @day + 9.hours + 30.minutes,
+      ends_at: @day + 10.hours + 30.minutes,
+      user: @other_user
+    )
 
-    assert_not conflict.valid?
-    assert_includes conflict.errors[:base], "Room is already reserved for this time"
+    assert competitor.valid?
   end
 
   test "overlapping approved reservation is invalid" do
@@ -23,6 +26,7 @@ class ReservationTest < ActiveSupport::TestCase
     conflict = build_reservation(starts_at: @day + 9.hours, ends_at: @day + 10.hours, user: @other_user)
 
     assert_not conflict.valid?
+    assert_includes conflict.errors[:base], "Room is already reserved for this time"
   end
 
   test "denied reservation does not block the slot" do
@@ -65,6 +69,33 @@ class ReservationTest < ActiveSupport::TestCase
     )
 
     assert reservation.valid?
+  end
+
+  test "approve succeeds when another overlapping pending exists" do
+    first = create_reservation!(starts_at: @day + 9.hours, ends_at: @day + 10.hours, status: :pending)
+    create_reservation!(
+      starts_at: @day + 9.hours,
+      ends_at: @day + 10.hours,
+      status: :pending,
+      user: @other_user
+    )
+
+    assert first.approve!(by: @user)
+    assert first.approved?
+  end
+
+  test "approve fails when another overlapping approved exists" do
+    first = create_reservation!(starts_at: @day + 9.hours, ends_at: @day + 10.hours, status: :pending)
+    second = create_reservation!(
+      starts_at: @day + 9.hours,
+      ends_at: @day + 10.hours,
+      status: :pending,
+      user: @other_user
+    )
+
+    assert first.approve!(by: @user)
+    assert_not second.approve!(by: @user)
+    assert_includes second.errors[:base], "Room is already reserved for this time"
   end
 
   private

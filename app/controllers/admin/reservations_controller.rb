@@ -3,7 +3,7 @@ module Admin
     before_action :set_reservation, only: %i[approve deny]
 
     def index
-      @reservations = Reservation.pending.includes(:user, room: :site).order(:starts_at)
+      @reservations = Reservation.pending.includes(:user, room: :site).order(:created_at, :starts_at)
     end
 
     def approve

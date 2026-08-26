@@ -37,8 +37,10 @@
             <td><%= l(reservation.starts_at, format: :long) %></td>
             <td><%= l(reservation.ends_at, format: :long) %></td>
             <td>
-              <%= button_to "Approve", approve_admin_reservation_path(reservation), method: :post %>
-              <%= button_to "Deny", deny_admin_reservation_path(reservation), method: :post %>
+              <div class="action-buttons">
+                <%= button_to "Approve", approve_admin_reservation_path(reservation), method: :post, class: "action-btn" %>
+                <%= button_to "Deny", deny_admin_reservation_path(reservation), method: :post, class: "action-btn deny-btn" %>
+              </div>
             </td>
           </tr>
         <% end %>

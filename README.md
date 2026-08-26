@@ -30,10 +30,10 @@ Open [http://localhost:3000](http://localhost:3000).
 ### In scope
 
 - **Sites & rooms:** A site has many rooms. Rooms belong to a site. No room capacity for now. Sites/rooms come from seeds (no admin CRUD).
-- **Reservations:** Staff reserve a room for a date/time. **Only one staff can hold a room for a given time** — overlapping bookings by two (or more) staff are not allowed.
-- **Double-booking prevention:** Block overlapping reservations on the same room (`pending`/`approved` hold the slot; `denied`/`cancelled` release it).
+- **Reservations:** Staff can request a room for a date/time. Multiple pending requests may compete for the same slot; only one **approved** booking may hold it.
+- **Double-booking prevention:** Only an **approved** reservation blocks the slot. Multiple **pending** requests are allowed; admin decides which to approve (queue ordered by earliest created). `denied` / `cancelled` do not block.
 - **Auth:** Basic session authentication with roles (`staff` / `admin`).
-- **Admin:** Approve or deny reservation requests.
+- **Admin:** Approve or deny reservation requests (first-created pending shown first).
 - **Staff:** View rooms across sites, request a reservation, see their upcoming reservations, and cancel pending/approved ones.
 - **Status flow:** `pending` → `approved`, `denied`, or `cancelled` (staff may cancel pending/approved).
 

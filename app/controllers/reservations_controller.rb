@@ -3,7 +3,10 @@ class ReservationsController < ApplicationController
   before_action :set_own_reservation, only: :cancel
 
   def index
-    @reservations = Current.user.reservations.upcoming.includes(room: :site)
+    @reservations = Reservation
+      .where(user_id: Current.user.id)
+      .includes(room: :site)
+      .order(starts_at: :desc)
   end
 
   def new
