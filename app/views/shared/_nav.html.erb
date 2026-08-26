@@ -3,6 +3,9 @@
     <li><strong><%= link_to "Room Reservation", root_path %></strong></li>
     <li><%= link_to "Rooms", root_path %></li>
     <li><%= link_to "My reservations", reservations_path %></li>
+    <% if Current.user&.admin? %>
+      <li><%= link_to "Pending requests", admin_reservations_path %></li>
+    <% end %>
   </ul>
   <ul>
     <% if Current.user %>

@@ -1,0 +1,50 @@
+<% content_for :title, "Pending requests" %>
+
+<header>
+  <%= render "shared/nav" %>
+  <h1>Pending requests</h1>
+  <p>Approve or deny reservation requests.</p>
+</header>
+
+<% if flash[:notice] %>
+  <p><ins><%= flash[:notice] %></ins></p>
+<% end %>
+<% if flash[:alert] %>
+  <p><mark><%= flash[:alert] %></mark></p>
+<% end %>
+
+<% if @reservations.any? %>
+  <figure>
+    <table>
+      <thead>
+        <tr>
+          <th>Requester</th>
+          <th>Site</th>
+          <th>Room</th>
+          <th>Purpose</th>
+          <th>Starts</th>
+          <th>Ends</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @reservations.each do |reservation| %>
+          <tr>
+            <td><%= reservation.user.name %></td>
+            <td><%= reservation.room.site.name %></td>
+            <td><%= reservation.room.name %></td>
+            <td><%= reservation.purpose.presence || "—" %></td>
+            <td><%= l(reservation.starts_at, format: :long) %></td>
+            <td><%= l(reservation.ends_at, format: :long) %></td>
+            <td>
+              <%= button_to "Approve", approve_admin_reservation_path(reservation), method: :post %>
+              <%= button_to "Deny", deny_admin_reservation_path(reservation), method: :post %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </figure>
+<% else %>
+  <p>No pending reservation requests.</p>
+<% end %>

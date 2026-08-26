@@ -18,6 +18,26 @@ class Reservation < ApplicationRecord
 
   scope :upcoming, -> { where("starts_at >= ?", Time.current).order(:starts_at) }
 
+  def approve!(by:)
+    unless pending?
+      errors.add(:base, "Only pending reservations can be approved")
+      return false
+    end
+
+    assign_attributes(status: :approved, decided_by: by, decided_at: Time.current)
+    save
+  end
+
+  def deny!(by:)
+    unless pending?
+      errors.add(:base, "Only pending reservations can be denied")
+      return false
+    end
+
+    assign_attributes(status: :denied, decided_by: by, decided_at: Time.current)
+    save
+  end
+
   private
 
   def ends_at_after_starts_at

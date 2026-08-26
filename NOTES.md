@@ -21,3 +21,4 @@ Tools used: **Cursor** (agentic coding assistant). Encouraged by the brief; judg
 | Asked to remove site/room CRUD from scope | Moved admin site/room management to out of scope; sites/rooms stay seed-only | **Accepted**. |
 | UI looked plain; asked to add Pico CSS | Pico 2 via jsDelivr CDN; `main.container` layout; light Pico-friendly markup on rooms + auth views | **Accepted**. |
 | Asked for staff booking flow in Plan Mode | Reserve from rooms list → pending reservation form; My reservations (upcoming); overlap errors on form | **Accepted**. |
+| Asked for admin approve/deny flow | Admin pending queue with Approve/Deny; sets `decided_by`/`decided_at`; `require_admin` gate; nav link for admins | **Accepted**. |
