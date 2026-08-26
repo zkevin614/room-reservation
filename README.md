@@ -29,16 +29,17 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ### In scope
 
-- **Sites & rooms:** Admin CRUD for sites. A site has many rooms. Rooms belong to a site. No room capacity for now.
+- **Sites & rooms:** A site has many rooms. Rooms belong to a site. No room capacity for now. Sites/rooms come from seeds (no admin CRUD).
 - **Reservations:** Staff reserve a room for a date/time. **Only one staff can hold a room for a given time** — overlapping bookings by two (or more) staff are not allowed.
 - **Double-booking prevention:** Block overlapping reservations on the same room (`pending`/`approved` hold the slot; `denied`/`cancelled` release it).
 - **Auth:** Basic session authentication with roles (`staff` / `admin`).
-- **Admin:** Approve or deny reservation requests; manage sites (and rooms under a site).
+- **Admin:** Approve or deny reservation requests.
 - **Staff:** View rooms across sites, request a reservation, see their upcoming reservations.
 - **Status flow:** `pending` → `approved`, `denied`, or `cancelled`.
 
 ### Out of scope (for now)
 
+- Admin CRUD for sites and rooms
 - Room capacity / multi-attendee occupancy
 - Email notifications, calendar UI, recurring reservations
 - Devise/OAuth (session + seeded users is enough)

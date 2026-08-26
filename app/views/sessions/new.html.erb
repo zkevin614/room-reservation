@@ -1,11 +1,20 @@
-<%= tag.div(flash[:alert], style: "color:red") if flash[:alert] %>
-<%= tag.div(flash[:notice], style: "color:green") if flash[:notice] %>
+<% content_for :title, "Sign in" %>
 
-<%= form_with url: session_path do |form| %>
-  <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", value: params[:email_address] %><br>
-  <%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "Enter your password", maxlength: 72 %><br>
-  <%= form.submit "Sign in" %>
-<% end %>
-<br>
+<article>
+  <h1>Sign in</h1>
 
-<%= link_to "Forgot password?", new_password_path %>
+  <% if flash[:alert] %>
+    <p><mark><%= flash[:alert] %></mark></p>
+  <% end %>
+  <% if flash[:notice] %>
+    <p><ins><%= flash[:notice] %></ins></p>
+  <% end %>
+
+  <%= form_with url: session_path do |form| %>
+    <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Email address", value: params[:email_address], "aria-label": "Email address" %>
+    <%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "Password", maxlength: 72, "aria-label": "Password" %>
+    <%= form.submit "Sign in" %>
+  <% end %>
+
+  <p><%= link_to "Forgot password?", new_password_path %></p>
+</article>

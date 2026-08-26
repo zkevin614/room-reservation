@@ -1,8 +1,17 @@
-<h1>Forgot your password?</h1>
+<% content_for :title, "Forgot password" %>
 
-<%= tag.div(flash[:alert], style: "color:red") if flash[:alert] %>
+<article>
+  <h1>Forgot your password?</h1>
 
-<%= form_with url: passwords_path do |form| %>
-  <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", value: params[:email_address] %><br>
-  <%= form.submit "Email reset instructions" %>
-<% end %>
+  <% if flash[:alert] %>
+    <p><mark><%= flash[:alert] %></mark></p>
+  <% end %>
+  <% if flash[:notice] %>
+    <p><ins><%= flash[:notice] %></ins></p>
+  <% end %>
+
+  <%= form_with url: passwords_path do |form| %>
+    <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", value: params[:email_address], "aria-label": "Email address" %>
+    <%= form.submit "Email reset instructions" %>
+  <% end %>
+</article>

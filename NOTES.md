@@ -17,3 +17,7 @@ Tools used: **Cursor** (agentic coding assistant). Encouraged by the brief; judg
 | Double-booking rules: pending/approved block; denied/cancelled release; model validation; skip overlap check when denying/cancelling | Added `cancelled` status, overlap validation, model tests; updated README | **Accepted** — matched settled rules (validation + skip on deny/cancel). |
 | Asked Cursor to complete Site and Room models to match Postgres tables | Validations for `name` / `active`; `active` scopes; kept associations | **Accepted** — mirrors columns (`name`, `address`, `active` / `site`, `name`, `active`). |
 | Asked Cursor to seed sites/rooms and wipe all tables first | `delete_all` in FK order, then recreate users, 3 sites, 7 rooms | **Accepted**. |
+| Rebuild staff home as a rooms page: one page, grouped by site, show everything at once | `RoomsController#index` as root; active sites/rooms listed by site; removed placeholder HomeController | **Accepted**. |
+| Asked to remove site/room CRUD from scope | Moved admin site/room management to out of scope; sites/rooms stay seed-only | **Accepted**. |
+| UI looked plain; asked to add Pico CSS | Pico 2 via jsDelivr CDN; `main.container` layout; light Pico-friendly markup on rooms + auth views | **Accepted**. |
+| Asked for staff booking flow in Plan Mode | Reserve from rooms list → pending reservation form; My reservations (upcoming); overlap errors on form | **Accepted**. |

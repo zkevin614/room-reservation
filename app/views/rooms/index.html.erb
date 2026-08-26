@@ -1,0 +1,43 @@
+<% content_for :title, "Rooms" %>
+
+<header>
+  <%= render "shared/nav" %>
+  <h1>Rooms</h1>
+  <p>Available rooms across all sites.</p>
+</header>
+
+<% if flash[:alert] %>
+  <p><mark><%= flash[:alert] %></mark></p>
+<% end %>
+<% if flash[:notice] %>
+  <p><ins><%= flash[:notice] %></ins></p>
+<% end %>
+
+<% if @sites.any? %>
+  <% @sites.each do |site| %>
+    <article>
+      <header>
+        <h2><%= site.name %></h2>
+        <% if site.address.present? %>
+          <p><%= site.address %></p>
+        <% end %>
+      </header>
+
+      <% active_rooms = site.rooms.select(&:active).sort_by(&:name) %>
+      <% if active_rooms.any? %>
+        <ul>
+          <% active_rooms.each do |room| %>
+            <li>
+              <%= room.name %>
+              — <%= link_to "Reserve", new_reservation_path(room_id: room) %>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p><em>No active rooms at this site.</em></p>
+      <% end %>
+    </article>
+  <% end %>
+<% else %>
+  <p>No sites available.</p>
+<% end %>

@@ -1,0 +1,45 @@
+<% content_for :title, "My reservations" %>
+
+<header>
+  <%= render "shared/nav" %>
+  <h1>My reservations</h1>
+  <p>Your upcoming reservation requests.</p>
+</header>
+
+<% if flash[:notice] %>
+  <p><ins><%= flash[:notice] %></ins></p>
+<% end %>
+<% if flash[:alert] %>
+  <p><mark><%= flash[:alert] %></mark></p>
+<% end %>
+
+<% if @reservations.any? %>
+  <figure>
+    <table>
+      <thead>
+        <tr>
+          <th>Site</th>
+          <th>Room</th>
+          <th>Purpose</th>
+          <th>Starts</th>
+          <th>Ends</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @reservations.each do |reservation| %>
+          <tr>
+            <td><%= reservation.room.site.name %></td>
+            <td><%= reservation.room.name %></td>
+            <td><%= reservation.purpose.presence || "—" %></td>
+            <td><%= l(reservation.starts_at, format: :long) %></td>
+            <td><%= l(reservation.ends_at, format: :long) %></td>
+            <td><%= reservation.status %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </figure>
+<% else %>
+  <p>No upcoming reservations. <%= link_to "Browse rooms", root_path %> to request one.</p>
+<% end %>

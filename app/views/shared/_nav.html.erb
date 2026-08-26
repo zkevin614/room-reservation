@@ -1,0 +1,13 @@
+<nav>
+  <ul>
+    <li><strong><%= link_to "Room Reservation", root_path %></strong></li>
+    <li><%= link_to "Rooms", root_path %></li>
+    <li><%= link_to "My reservations", reservations_path %></li>
+  </ul>
+  <ul>
+    <% if Current.user %>
+      <li><small><%= Current.user.name %> (<%= Current.user.role %>)</small></li>
+      <li><%= button_to "Sign out", session_path, method: :delete %></li>
+    <% end %>
+  </ul>
+</nav>

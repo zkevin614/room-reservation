@@ -1,0 +1,36 @@
+<% content_for :title, "Reserve #{@room.name}" %>
+
+<header>
+  <%= render "shared/nav" %>
+  <h1>Reserve a room</h1>
+  <p><%= @room.site.name %> — <%= @room.name %></p>
+</header>
+
+<article>
+  <% if @reservation.errors.any? %>
+    <mark>
+      <ul>
+        <% @reservation.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </mark>
+  <% end %>
+
+  <%= form_with model: @reservation, url: reservations_path do |form| %>
+    <%= hidden_field_tag :room_id, @room.id %>
+
+    <%= form.label :purpose %>
+    <%= form.text_field :purpose, placeholder: "Meeting purpose" %>
+
+    <%= form.label :starts_at, "Starts at" %>
+    <%= form.datetime_local_field :starts_at, required: true %>
+
+    <%= form.label :ends_at, "Ends at" %>
+    <%= form.datetime_local_field :ends_at, required: true %>
+
+    <%= form.submit "Request reservation" %>
+  <% end %>
+
+  <p><%= link_to "Cancel", root_path %></p>
+</article>

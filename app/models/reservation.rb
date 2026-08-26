@@ -16,6 +16,8 @@ class Reservation < ApplicationRecord
   validate :ends_at_after_starts_at
   validate :no_overlapping_reservation
 
+  scope :upcoming, -> { where("starts_at >= ?", Time.current).order(:starts_at) }
+
   private
 
   def ends_at_after_starts_at
