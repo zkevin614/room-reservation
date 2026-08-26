@@ -1,9 +1,13 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+# Demo users for local sign-in (password for all: password)
+[
+  { name: "Admin User", email: "admin@example.com", role: :admin },
+  { name: "Staff User 1", email: "staff1@example.com", role: :staff },
+  { name: "Staff User 2", email: "staff2@example.com", role: :staff },
+  { name: "Staff User 3", email: "staff3@example.com", role: :staff },
+].each do |attrs|
+  user = User.find_or_initialize_by(email: attrs[:email])
+  user.name = attrs[:name]
+  user.role = attrs[:role]
+  user.password = "password"
+  user.save!
+end

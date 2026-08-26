@@ -15,6 +15,14 @@ bin/rails server
 
 Open [http://localhost:3000](http://localhost:3000).
 
+### Demo users (after `db:seed`)
+
+| Role  | Email               | Password |
+|-------|---------------------|----------|
+| Admin | admin@example.com   | password |
+| Staff | staff1@example.com   | password |
+| Staff | staff2@example.com   | password |
+| Staff | staff3@example.com   | password |
 ---
 
 ## Scope
@@ -35,16 +43,4 @@ Open [http://localhost:3000](http://localhost:3000).
 - Email notifications, calendar UI, recurring reservations
 - Devise/OAuth (session + seeded users is enough)
 
----
-
-## AI usage log
-
-Tools used: **Cursor** (agentic coding assistant). Encouraged by the brief; judgment on accept / reject / modify is intentional.
-
-### Session: 2026-08-26
-
-| Action | Outcome | Judgment |
-|--------|---------|----------|
-| Asked Cursor to add an AI usage log to the README | Cursor shipped a full challenge README (scope, cuts, time estimates, data model, presentation notes) plus an AI log | **Rejected** — over-scoped. I only asked for the AI usage log; no project plan yet. Told Cursor to strip the plan sections and keep the log. |
-| Asked Cursor to add scope: double-booking prevention, session auth + role, admin Site CRUD, Site has many rooms; no capacity; one staff per room/time (not two+) | Added a focused Scope section (in / out) | **Accepted** — matched the ask; no time estimates or presentation fluff. Clarified “one staff at a time” as exclusive room hold for a time window. |
-| Designed DB (sites, rooms, users, reservations) then had Cursor implement the plan | Enabled bcrypt; migration + models with FKs, enums, `password_digest`, `decided_by_id`; ran migrate | **Accepted** — matched the agreed schema. Cursor used `password_digest` / `has_secure_password` (not plaintext password) and optional `decided_by` as planned. |
+AI usage log: see [NOTES.md](NOTES.md).

@@ -1,0 +1,6 @@
+<h1>Room Reservation</h1>
+
+<% if Current.user %>
+  <p>Signed in as <%= Current.user.name %> (<%= Current.user.role %>).</p>
+  <%= button_to "Sign out", session_path, method: :delete %>
+<% end %>
