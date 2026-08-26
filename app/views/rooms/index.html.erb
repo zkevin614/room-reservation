@@ -53,6 +53,7 @@
                         <th>Starts</th>
                         <th>Ends</th>
                         <th>Status</th>
+                        <th></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -68,6 +69,16 @@
                           <td><%= l(reservation.starts_at, format: :short) %></td>
                           <td><%= l(reservation.ends_at, format: :short) %></td>
                           <td><span class="status status-<%= reservation.status %>"><%= reservation.status %></span></td>
+                          <td>
+                            <% if admin_view && reservation.pending? %>
+                              <div class="action-buttons">
+                                <%= button_to "Approve", approve_admin_reservation_path(reservation), method: :post, class: "action-btn" %>
+                                <%= button_to "Deny", deny_admin_reservation_path(reservation), method: :post, class: "action-btn deny-btn" %>
+                              </div>
+                            <% elsif !admin_view && reservation.user_id == Current.user&.id && reservation.cancellable? %>
+                              <%= button_to "Cancel", cancel_reservation_path(reservation), method: :post, class: "outline secondary cancel-btn", form: { data: { turbo_confirm: "Cancel this reservation?" } } %>
+                            <% end %>
+                          </td>
                         </tr>
                       <% end %>
                     </tbody>

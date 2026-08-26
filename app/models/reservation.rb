@@ -21,6 +21,10 @@ class Reservation < ApplicationRecord
     where(status: ACTIVE_STATUSES).where("starts_at >= ?", Time.current).order(:starts_at)
   }
 
+  scope :upcoming_approved, -> {
+    approved.where("ends_at > ?", Time.current).order(:starts_at)
+  }
+
   def approve!(by:)
     unless pending?
       errors.add(:base, "Only pending reservations can be approved")

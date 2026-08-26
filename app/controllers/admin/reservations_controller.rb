@@ -8,17 +8,17 @@ module Admin
 
     def approve
       if @reservation.approve!(by: Current.user)
-        redirect_to admin_reservations_path, notice: "Reservation approved."
+        redirect_back fallback_location: admin_reservations_path, notice: "Reservation approved."
       else
-        redirect_to admin_reservations_path, alert: @reservation.errors.full_messages.to_sentence.presence || "Could not approve reservation."
+        redirect_back fallback_location: admin_reservations_path, alert: @reservation.errors.full_messages.to_sentence.presence || "Could not approve reservation."
       end
     end
 
     def deny
       if @reservation.deny!(by: Current.user)
-        redirect_to admin_reservations_path, notice: "Reservation denied."
+        redirect_back fallback_location: admin_reservations_path, notice: "Reservation denied."
       else
-        redirect_to admin_reservations_path, alert: @reservation.errors.full_messages.to_sentence.presence || "Could not deny reservation."
+        redirect_back fallback_location: admin_reservations_path, alert: @reservation.errors.full_messages.to_sentence.presence || "Could not deny reservation."
       end
     end
 

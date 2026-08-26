@@ -1,12 +1,17 @@
 class ReservationsController < ApplicationController
   before_action :set_room, only: %i[new create]
   before_action :set_own_reservation, only: :cancel
+  before_action :require_staff, only: :upcoming
 
   def index
     @reservations = Reservation
       .where(user_id: Current.user.id)
       .includes(room: :site)
       .order(starts_at: :desc)
+  end
+
+  def upcoming
+    @reservations = Current.user.reservations.upcoming_approved.includes(room: :site)
   end
 
   def new
@@ -27,9 +32,9 @@ class ReservationsController < ApplicationController
 
   def cancel
     if @reservation.cancel!
-      redirect_to reservations_path, notice: "Reservation cancelled."
+      redirect_back fallback_location: root_path, notice: "Reservation cancelled."
     else
-      redirect_to reservations_path, alert: @reservation.errors.full_messages.to_sentence.presence || "Could not cancel reservation."
+      redirect_back fallback_location: root_path, alert: @reservation.errors.full_messages.to_sentence.presence || "Could not cancel reservation."
     end
   end
 
@@ -51,5 +56,11 @@ class ReservationsController < ApplicationController
 
   def reservation_params
     params.require(:reservation).permit(:purpose, :starts_at, :ends_at)
+  end
+
+  def require_staff
+    return unless Current.user&.admin?
+
+    redirect_to root_path, alert: "Only staff can view upcoming reservations."
   end
 end

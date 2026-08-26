@@ -3,6 +3,7 @@
     <li><strong><%= link_to "Room Reservation", root_path %></strong></li>
     <li><%= link_to "Rooms", root_path %></li>
     <% unless Current.user&.admin? %>
+      <li><%= link_to "Upcoming reservations", upcoming_reservations_path %></li>
       <li><%= link_to "My reservations", reservations_path %></li>
     <% end %>
     <% if Current.user&.admin? %>

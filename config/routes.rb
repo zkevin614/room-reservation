@@ -2,6 +2,10 @@ Rails.application.routes.draw do
   resource :session
   resources :passwords, param: :token
   resources :reservations, only: %i[index new create] do
+    collection do
+      get :upcoming
+    end
+
     member do
       post :cancel
     end
