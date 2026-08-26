@@ -34,8 +34,8 @@ Open [http://localhost:3000](http://localhost:3000).
 - **Double-booking prevention:** Block overlapping reservations on the same room (`pending`/`approved` hold the slot; `denied`/`cancelled` release it).
 - **Auth:** Basic session authentication with roles (`staff` / `admin`).
 - **Admin:** Approve or deny reservation requests.
-- **Staff:** View rooms across sites, request a reservation, see their upcoming reservations.
-- **Status flow:** `pending` → `approved`, `denied`, or `cancelled`.
+- **Staff:** View rooms across sites, request a reservation, see their upcoming reservations, and cancel pending/approved ones.
+- **Status flow:** `pending` → `approved`, `denied`, or `cancelled` (staff may cancel pending/approved).
 
 ### Out of scope (for now)
 

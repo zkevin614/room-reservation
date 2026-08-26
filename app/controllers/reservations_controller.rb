@@ -1,5 +1,6 @@
 class ReservationsController < ApplicationController
   before_action :set_room, only: %i[new create]
+  before_action :set_own_reservation, only: :cancel
 
   def index
     @reservations = Current.user.reservations.upcoming.includes(room: :site)
@@ -21,6 +22,14 @@ class ReservationsController < ApplicationController
     end
   end
 
+  def cancel
+    if @reservation.cancel!
+      redirect_to reservations_path, notice: "Reservation cancelled."
+    else
+      redirect_to reservations_path, alert: @reservation.errors.full_messages.to_sentence.presence || "Could not cancel reservation."
+    end
+  end
+
   private
 
   def set_room
@@ -28,6 +37,13 @@ class ReservationsController < ApplicationController
     return if @room
 
     redirect_to root_path, alert: "Room not found or inactive."
+  end
+
+  def set_own_reservation
+    @reservation = Current.user.reservations.find_by(id: params[:id])
+    return if @reservation
+
+    redirect_to reservations_path, alert: "Reservation not found."
   end
 
   def reservation_params

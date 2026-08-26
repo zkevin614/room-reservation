@@ -3,7 +3,7 @@
 <header>
   <%= render "shared/nav" %>
   <h1>My reservations</h1>
-  <p>Your upcoming reservation requests.</p>
+  <p>Your upcoming reservation requests and their status.</p>
 </header>
 
 <% if flash[:notice] %>
@@ -24,6 +24,7 @@
           <th>Starts</th>
           <th>Ends</th>
           <th>Status</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -34,12 +35,19 @@
             <td><%= reservation.purpose.presence || "—" %></td>
             <td><%= l(reservation.starts_at, format: :long) %></td>
             <td><%= l(reservation.ends_at, format: :long) %></td>
-            <td><%= reservation.status %></td>
+            <td>
+              <span class="status status-<%= reservation.status %>"><%= reservation.status %></span>
+            </td>
+            <td>
+              <% if reservation.cancellable? %>
+                <%= button_to "Cancel", cancel_reservation_path(reservation), method: :post, class: "outline secondary cancel-btn", form: { data: { turbo_confirm: "Cancel this reservation?" } } %>
+              <% end %>
+            </td>
           </tr>
         <% end %>
       </tbody>
     </table>
   </figure>
 <% else %>
-  <p>No upcoming reservations. <%= link_to "Browse rooms", root_path %> to request one.</p>
+  <p>No upcoming reservations yet. <%= link_to "Browse rooms", root_path %> to request one.</p>
 <% end %>

@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   resource :session
   resources :passwords, param: :token
-  resources :reservations, only: %i[index new create]
+  resources :reservations, only: %i[index new create] do
+    member do
+      post :cancel
+    end
+  end
 
   namespace :admin do
     resources :reservations, only: [:index] do

@@ -16,7 +16,9 @@ class Reservation < ApplicationRecord
   validate :ends_at_after_starts_at
   validate :no_overlapping_reservation
 
-  scope :upcoming, -> { where("starts_at >= ?", Time.current).order(:starts_at) }
+  scope :upcoming, -> {
+    where(status: BLOCKING_STATUSES).where("starts_at >= ?", Time.current).order(:starts_at)
+  }
 
   def approve!(by:)
     unless pending?
@@ -36,6 +38,20 @@ class Reservation < ApplicationRecord
 
     assign_attributes(status: :denied, decided_by: by, decided_at: Time.current)
     save
+  end
+
+  def cancel!
+    unless pending? || approved?
+      errors.add(:base, "Only pending or approved reservations can be cancelled")
+      return false
+    end
+
+    assign_attributes(status: :cancelled)
+    save
+  end
+
+  def cancellable?
+    pending? || approved?
   end
 
   private

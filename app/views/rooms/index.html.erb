@@ -6,9 +6,9 @@
   <h1>Rooms</h1>
   <p>
     <% if admin_view %>
-      Approved bookings by site and room.
+      Upcoming bookings by site and room (pending and approved).
     <% else %>
-      Available rooms across all sites. Reserve a room to request a booking.
+      Browse rooms, see who has booked each time slot, and reserve when available.
     <% end %>
   </p>
 </header>
@@ -42,34 +42,39 @@
                 <% end %>
               </div>
 
-              <% if admin_view %>
-                <% bookings = room.approved_upcoming_reservations %>
-                <% if bookings.any? %>
-                  <figure class="booking-table">
-                    <table>
-                      <thead>
-                        <tr>
-                          <th>Staff</th>
-                          <th>Purpose</th>
-                          <th>Starts</th>
-                          <th>Ends</th>
+              <% bookings = room.upcoming_bookings %>
+              <% if bookings.any? %>
+                <figure class="booking-table">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Booked by</th>
+                        <th>Purpose</th>
+                        <th>Starts</th>
+                        <th>Ends</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% bookings.each do |reservation| %>
+                        <tr class="<%= "mine" if !admin_view && reservation.user_id == Current.user&.id %>">
+                          <td>
+                            <%= reservation.user.name %>
+                            <% if !admin_view && reservation.user_id == Current.user&.id %>
+                              <small>(you)</small>
+                            <% end %>
+                          </td>
+                          <td><%= reservation.purpose.presence || "—" %></td>
+                          <td><%= l(reservation.starts_at, format: :short) %></td>
+                          <td><%= l(reservation.ends_at, format: :short) %></td>
+                          <td><span class="status status-<%= reservation.status %>"><%= reservation.status %></span></td>
                         </tr>
-                      </thead>
-                      <tbody>
-                        <% bookings.each do |reservation| %>
-                          <tr>
-                            <td><%= reservation.user.name %></td>
-                            <td><%= reservation.purpose.presence || "—" %></td>
-                            <td><%= l(reservation.starts_at, format: :short) %></td>
-                            <td><%= l(reservation.ends_at, format: :short) %></td>
-                          </tr>
-                        <% end %>
-                      </tbody>
-                    </table>
-                  </figure>
-                <% else %>
-                  <p class="empty-bookings"><em>No upcoming approved bookings.</em></p>
-                <% end %>
+                      <% end %>
+                    </tbody>
+                  </table>
+                </figure>
+              <% else %>
+                <p class="empty-bookings"><em>No upcoming bookings.</em></p>
               <% end %>
             </section>
           <% end %>

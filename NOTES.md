@@ -23,3 +23,6 @@ Tools used: **Cursor** (agentic coding assistant). Encouraged by the brief; judg
 | Asked for staff booking flow in Plan Mode | Reserve from rooms list → pending reservation form; My reservations (upcoming); overlap errors on form | **Accepted**. |
 | Asked for admin approve/deny flow | Admin pending queue with Approve/Deny; sets `decided_by`/`decided_at`; `require_admin` gate; nav link for admins | **Accepted**. |
 | Admin rooms view: no Reserve; show approved bookings per room; cleaner UI | Role-specific rooms index; nested approved upcoming tables; room-block styles; hide My reservations for admin | **Accepted**. |
+| Staff (and admin) should see who booked which room/when on Rooms page | Shared per-room upcoming pending+approved schedule; status badges; highlight staff’s own rows | **Accepted**. |
+| Polish My reservations UI with status chips | Card layout per booking; pending/approved/denied/cancelled chips | **Accepted**, then switched to a plain table with status chips after cards looked broken under Pico. |
+| Staff can cancel their pending/approved reservations | `cancel!` on model; member route; Cancel on My reservations; upcoming list is active bookings only | **Accepted**. |
