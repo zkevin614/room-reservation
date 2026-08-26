@@ -20,7 +20,7 @@ module ApplicationHelper
 
   def nav_link_to(name, path, key:, **options)
     active = nav_item_active?(key)
-    options[:class] = [options[:class], ("active" if active)].compact.join(" ")
+    options[:class] = [ options[:class], ("active" if active) ].compact.join(" ")
     options[:aria] = (options[:aria] || {}).merge(current: (active ? "page" : nil)).compact
 
     link_to name, path, **options

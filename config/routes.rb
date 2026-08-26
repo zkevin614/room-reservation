@@ -12,10 +12,10 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :sites, except: [:show]
-    resources :rooms, except: [:show]
+    resources :sites, except: [ :show ]
+    resources :rooms, except: [ :show ]
 
-    resources :reservations, only: [:index] do
+    resources :reservations, only: [ :index ] do
       member do
         post :approve
         post :deny
