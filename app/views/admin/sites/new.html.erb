@@ -1,0 +1,25 @@
+<% content_for :title, "New site" %>
+
+<header>
+  <%= render "shared/nav" %>
+  <h1>New site</h1>
+</header>
+
+<article>
+  <% if @site.errors.any? %>
+    <mark>
+      <ul>
+        <% @site.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </mark>
+  <% end %>
+
+  <%= form_with model: [:admin, @site] do |form| %>
+    <%= render "form", form: form %>
+    <%= form.submit "Create site" %>
+  <% end %>
+
+  <p><%= link_to "Cancel", admin_sites_path %></p>
+</article>

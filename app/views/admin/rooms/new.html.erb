@@ -1,0 +1,25 @@
+<% content_for :title, "New room" %>
+
+<header>
+  <%= render "shared/nav" %>
+  <h1>New room</h1>
+</header>
+
+<article>
+  <% if @room.errors.any? %>
+    <mark>
+      <ul>
+        <% @room.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </mark>
+  <% end %>
+
+  <%= form_with model: [:admin, @room] do |form| %>
+    <%= render "form", form: form %>
+    <%= form.submit "Create room" %>
+  <% end %>
+
+  <p><%= link_to "Cancel", admin_rooms_path %></p>
+</article>

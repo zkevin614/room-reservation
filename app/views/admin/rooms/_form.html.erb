@@ -1,0 +1,10 @@
+<%= form.label :site_id, "Site" %>
+<%= form.collection_select :site_id, @sites, :id, :name, { prompt: "Select a site" }, required: true %>
+
+<%= form.label :name %>
+<%= form.text_field :name, required: true %>
+
+<label>
+  <%= form.check_box :active %>
+  Active
+</label>

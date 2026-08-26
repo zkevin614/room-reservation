@@ -1,0 +1,56 @@
+<% content_for :title, "Manage Sites" %>
+
+<header>
+  <%= render "shared/nav" %>
+  <h1>Manage Sites</h1>
+</header>
+
+<% if flash[:notice] %>
+  <p><ins><%= flash[:notice] %></ins></p>
+<% end %>
+<% if flash[:alert] %>
+  <p><mark><%= flash[:alert] %></mark></p>
+<% end %>
+
+<p><%= link_to "New site", new_admin_site_path, role: "button" %></p>
+
+<% if @sites.any? %>
+  <figure>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Address</th>
+          <th>Rooms</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @sites.each do |site| %>
+          <tr>
+            <td><%= site.name %></td>
+            <td><%= site.address.presence || "—" %></td>
+            <td><%= site.rooms.size %></td>
+            <td>
+              <% if site.active? %>
+                <span class="status status-approved">active</span>
+              <% else %>
+                <span class="status status-cancelled">inactive</span>
+              <% end %>
+            </td>
+            <td>
+              <div class="action-buttons">
+                <%= link_to "Add room", new_admin_room_path(site_id: site.id) %>
+                <%= link_to "Edit", edit_admin_site_path(site) %>
+                <%= button_to "Delete", admin_site_path(site), method: :delete, class: "action-btn deny-btn", form: { data: { turbo_confirm: "Delete #{site.name} and all its rooms?" } } %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </figure>
+<% else %>
+  <p>No sites yet.</p>
+<% end %>

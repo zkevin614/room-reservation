@@ -1,0 +1,26 @@
+<% content_for :title, "Edit #{@site.name}" %>
+
+<header>
+  <%= render "shared/nav" %>
+  <h1>Edit site</h1>
+  <p><%= @site.name %></p>
+</header>
+
+<article>
+  <% if @site.errors.any? %>
+    <mark>
+      <ul>
+        <% @site.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </mark>
+  <% end %>
+
+  <%= form_with model: [:admin, @site] do |form| %>
+    <%= render "form", form: form %>
+    <%= form.submit "Save changes" %>
+  <% end %>
+
+  <p><%= link_to "Cancel", admin_sites_path %></p>
+</article>

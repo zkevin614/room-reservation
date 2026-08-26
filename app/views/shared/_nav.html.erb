@@ -7,6 +7,8 @@
       <li><%= link_to "My reservations", reservations_path %></li>
     <% end %>
     <% if Current.user&.admin? %>
+      <li><%= link_to "Manage Sites", admin_sites_path %></li>
+      <li><%= link_to "Manage Rooms", admin_rooms_path %></li>
       <li><%= link_to "Pending requests", admin_reservations_path %></li>
     <% end %>
   </ul>

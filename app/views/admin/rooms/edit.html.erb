@@ -1,0 +1,26 @@
+<% content_for :title, "Edit #{@room.name}" %>
+
+<header>
+  <%= render "shared/nav" %>
+  <h1>Edit room</h1>
+  <p><%= @room.site.name %> — <%= @room.name %></p>
+</header>
+
+<article>
+  <% if @room.errors.any? %>
+    <mark>
+      <ul>
+        <% @room.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </mark>
+  <% end %>
+
+  <%= form_with model: [:admin, @room] do |form| %>
+    <%= render "form", form: form %>
+    <%= form.submit "Save changes" %>
+  <% end %>
+
+  <p><%= link_to "Cancel", admin_rooms_path %></p>
+</article>

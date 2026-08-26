@@ -1,0 +1,53 @@
+<% content_for :title, "Manage Rooms" %>
+
+<header>
+  <%= render "shared/nav" %>
+  <h1>Manage Rooms</h1>
+</header>
+
+<% if flash[:notice] %>
+  <p><ins><%= flash[:notice] %></ins></p>
+<% end %>
+<% if flash[:alert] %>
+  <p><mark><%= flash[:alert] %></mark></p>
+<% end %>
+
+<p><%= link_to "New room", new_admin_room_path, role: "button" %></p>
+
+<% if @rooms.any? %>
+  <figure>
+    <table>
+      <thead>
+        <tr>
+          <th>Site</th>
+          <th>Room</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @rooms.each do |room| %>
+          <tr>
+            <td><%= room.site.name %></td>
+            <td><%= room.name %></td>
+            <td>
+              <% if room.active? %>
+                <span class="status status-approved">active</span>
+              <% else %>
+                <span class="status status-cancelled">inactive</span>
+              <% end %>
+            </td>
+            <td>
+              <div class="action-buttons">
+                <%= link_to "Edit", edit_admin_room_path(room) %>
+                <%= button_to "Delete", admin_room_path(room), method: :delete, class: "action-btn deny-btn", form: { data: { turbo_confirm: "Delete #{room.name}?" } } %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </figure>
+<% else %>
+  <p>No rooms yet.</p>
+<% end %>
